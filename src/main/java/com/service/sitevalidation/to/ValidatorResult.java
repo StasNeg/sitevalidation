@@ -1,12 +1,7 @@
 package com.service.sitevalidation.to;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@Component
-@Scope("prototype")
 public class ValidatorResult {
     private final CopyOnWriteArraySet<URIState> errorsSites = new CopyOnWriteArraySet<>();
     private final CopyOnWriteArraySet<URIState> validSites = new CopyOnWriteArraySet<>();

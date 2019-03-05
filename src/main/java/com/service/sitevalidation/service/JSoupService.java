@@ -16,6 +16,11 @@ public class JSoupService {
         }
     }
 
+    public static Document  getText(String htmlText) {
+            return Jsoup.parse(htmlText);
+    }
+
+
     private static String validateProtocol(String validationSite) {
         return validationSite.matches("^(?i)http.*") ? validationSite : "http://" + validationSite;
     }

@@ -6,8 +6,6 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -20,14 +18,11 @@ public class ValidateLinks {
     private static final int THREADS_NUMBERS = 8;
     private static final ExecutorService siteValidationExecutor = Executors.newFixedThreadPool(THREADS_NUMBERS);
     private Logger logger = LoggerFactory.getLogger(ValidateLinks.class);
-    @Autowired
-    private ApplicationContext applicationContext;
-
     private ValidatorResult result;
 
     public ValidatorResult validate(Set<String> links) {
         final CompletionService<Boolean> completionService = new ExecutorCompletionService<>(siteValidationExecutor);
-        result = applicationContext.getBean(ValidatorResult.class);
+        result = new ValidatorResult();
         links.forEach(link -> completionService.submit(() -> validateSite(link)));
         int counter = 0;
         while (counter < links.size()) {
@@ -57,7 +52,7 @@ public class ValidateLinks {
             result.addValid(new URIState(link, response.statusCode()));
             connectionResult = true;
         } catch (Exception e) {
-            result.addError(new URIState(String.format("%s find with Error message %s", link, e.getMessage()),500));
+            result.addError(new URIState(String.format("%s find with Error message %s", link, e.getMessage()), 500));
         }
         return connectionResult;
     }

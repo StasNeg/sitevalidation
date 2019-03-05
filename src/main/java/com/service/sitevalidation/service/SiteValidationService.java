@@ -18,9 +18,9 @@ public class SiteValidationService {
         this.validator = validator;
     }
 
-    public ValidatorResult validate(String validationSite) {
+
+    public ValidatorResult validateSite(Document parsedSite) {
         Set<String> result = new HashSet<>();
-        Document parsedSite = JSoupService.getDocument(validationSite);
         Elements links = parsedSite.select("a[href]");
         links.forEach(link -> result.add(link.attr("abs:href")));
         return validator.validate(result);
